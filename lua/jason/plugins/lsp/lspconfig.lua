@@ -14,7 +14,7 @@ return {
 
 		local keymap = vim.keymap -- for conciseness
 
-		local opts = { noremap = true, silent = true }
+		local opts = { noremap = true, silent = true } --, autoformat = false }
 		local on_attach = function(client, bufnr)
 			opts.buffer = bufnr
 
@@ -101,6 +101,7 @@ return {
 				on_attach(client, bufnr)
 
 				vim.api.nvim_create_autocmd("BufWritePost", {
+					--TODO add backk *.js later
 					pattern = { "*.js", "*.ts" },
 					callback = function(ctx)
 						if client.name == "svelte" then
@@ -158,6 +159,14 @@ return {
 			on_attach = on_attach,
 			filetypes = { "java" },
 		})
+
+		-- configure sql server
+		--		lspconfig["sqls"].setup({
+		--
+		--			cmd = { "/Users/jasonmac/go/bin/sqls" },
+		--			capabilities = capabilities,
+		--			on_attach = on_attach,
+		--		})
 
 		-- configure latex server
 		lspconfig["texlab"].setup({

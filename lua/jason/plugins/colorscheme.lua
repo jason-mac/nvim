@@ -1,11 +1,41 @@
 -- Lazy
 return {
+	"tiagovla/tokyodark.nvim",
+	--"folke/tokyonight.nvim",
+	--"bluz71/vim-moonfly-colors",
+	--"olimorris/onedarkpro.nvim",
+	--"EdenEast/nightfox.nvim",
+	--"navarasu/onedark.nvim",
+	--"catppuccin/nvim",
+	--"rebelot/kanagawa.nvim",
+	priority = 1000,
+	config = function()
+		vim.cmd("colorscheme tokyodark")
+	end,
+}
+--[[return {
+	"tiagovla/tokyodark.nvim",
+	priority = 1000,
+	config = function()
+		vim.cmd("colorscheme tokyodark")
+	end,
+}--]]
+
+--[[return {
+	"bluz71/vim-moonfly-colors",
+	priority = 1000,
+	config = function()
+		vim.cmd.colorscheme("moonfly")
+	end,
+}--]]
+
+--[[return {
 	"olimorris/onedarkpro.nvim",
 	priority = 1000, -- Ensure it loads first
 	config = function()
 		vim.cmd.colorscheme("onedark_dark")
 	end,
-}
+}--]]
 
 --[[return {
 	"EdenEast/nightfox.nvim",
@@ -20,7 +50,7 @@ return {
 	priority = 1000,
 	name = "catppuccin",
 	config = function()
-		vim.cmd.colorscheme("catppuccin")
+		vim.cmd.colorscheme("catppuccin-latte")
 	end,
 }--]]
 
@@ -29,6 +59,18 @@ return {
 	priority = 1000,
 	config = function()
 		vim.cmd("colorscheme kanagawa-wave")
+	end,
+}--]]
+
+--[[return {
+	"navarasu/onedark.nvim",
+	priority = 1000,
+	config = function()
+		require("onedark").setup({
+			style = "warmer",
+		})
+
+		require("onedark").load()
 	end,
 }--]]
 
