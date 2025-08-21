@@ -27,6 +27,53 @@ return {
 		local formatting = null_ls.builtins.formatting -- to setup formatters
 		local diagnostics = null_ls.builtins.diagnostics -- to setup linters
 
+		local helpers = require("null-ls.helpers")
+
+		local sqlfluff_formatter = {
+			name = "sqlfluff",
+			method = null_ls.methods.FORMATTING,
+			command = "/opt/homebrew/bin/sqlfluff",
+			filetypes = { "sql" },
+			generator = helpers.formatter_factory({
+				command = "sqlfluff",
+				args = { "fix", "--stdout", "--force", "-" },
+				to_stdin = true,
+			}),
+		}
+
+		local sqlfluff_linter = {
+			name = "sqlfluff",
+			command = "/opt/homebrew/bin/sqlfluff",
+			method = null_ls.methods.DIAGNOSTICS,
+			filetypes = { "sql" },
+			generator = helpers.diagnostics.from_command({
+				command = "sqlfluff",
+				args = { "lint", "--format", "json", "-" },
+				to_stdin = true,
+				from_stderr = false,
+				format = "json",
+				check_exit_code = function(code)
+					return code <= 1
+				end,
+				on_output = function(params)
+					local decoded = vim.fn.json_decode(params.output)
+					for _, file in ipairs(decoded) do
+						for _, violation in ipairs(file.violations) do
+							table.insert(diagnostics, {
+								row = violation.line_no,
+								col = violation.line_pos,
+								end_col = violation.line_pos + #violation.description,
+								source = "sqlfluff",
+								message = violation.description,
+								severity = vim.diagnostic.severity.WARN,
+							})
+						end
+					end
+					return diagnostics
+				end,
+			}),
+		}
+
 		-- to setup format on save
 		local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
@@ -37,14 +84,16 @@ return {
 			-- setup formatters & linters
 			sources = {
 				--  to disable file types use
-				--  "formatting.prettier.with({disabled_filetypes: {}})" (see null-ls docs)
+				--(see null-ls docs)
 				formatting.prettier.with({
 					extra_filetypes = { "svelte" },
-				}), -- js/ts formatter
+				}),
 				formatting.stylua, -- lua formatter
 				formatting.isort,
 				formatting.black,
 				diagnostics.pylint,
+				sqlfluff_linter,
+				sqlfluff_formatter,
 				diagnostics.eslint_d.with({ -- js/ts linter
 					condition = function(utils)
 						return utils.root_has_file({ ".eslintrc.js", ".eslintrc.cjs" }) -- only enable if root has .eslintrc.js or .eslintrc.cjs

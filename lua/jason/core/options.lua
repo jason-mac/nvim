@@ -39,3 +39,12 @@ opt.iskeyword:append("-")
 
 vim.g.vimtex_compiler_method = "latexmk" -- Use latexmk for compilation
 vim.g.vimtex_auto_compile = 1 --" Only compile when file is saved
+
+-- autoformat options
+--vim.g.autoformat = false
+
+--vim.g.disable_autoformat = true
+
+--vim.g.format_on_save = false
+
+--vim.g.format_after_save = false
