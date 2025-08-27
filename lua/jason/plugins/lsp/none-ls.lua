@@ -20,6 +20,7 @@ return {
 				"pylint", -- python linter
 				"eslint_d", -- js linter
 				"latexindent", --latex formatter
+				"csharpier",
 			},
 		})
 
@@ -91,6 +92,7 @@ return {
 				formatting.stylua, -- lua formatter
 				formatting.isort,
 				formatting.black,
+				formatting.csharpier,
 				diagnostics.pylint,
 				sqlfluff_linter,
 				sqlfluff_formatter,
