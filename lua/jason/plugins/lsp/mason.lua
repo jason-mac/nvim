@@ -24,9 +24,16 @@ return {
 			},
 		})
 
+		mason.opts = {
+			ensure_installed = {
+				"netcoredbg",
+			},
+		}
+
 		mason_lspconfig.setup({
 			-- list of servers for mason to install
 			ensure_installed = {
+				"omnisharp",
 				"ts_ls",
 				"html",
 				"cssls",
@@ -57,6 +64,7 @@ return {
 				"pylint", -- python linter
 				"eslint_d", -- js linter
 				"latexindent", -- latex formatter
+				"csharpier",
 			},
 		})
 	end,

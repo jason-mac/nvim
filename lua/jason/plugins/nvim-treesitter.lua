@@ -44,6 +44,7 @@ return {
 					"query",
 					"cpp",
 					"rust",
+					"c_sharp",
 				},
 				incremental_selection = {
 					enable = true,
